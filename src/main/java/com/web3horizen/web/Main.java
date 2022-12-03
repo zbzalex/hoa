@@ -1,12 +1,9 @@
 package com.web3horizen.web;
 
-import com.web3horizen.web.app.modules.app.AppModule;
-import com.web3horizen.web.framework.Application;
+import com.web3horizen.web.app.AppModule;
 import com.web3horizen.web.framework.WebApplication;
 import com.web3horizen.web.framework.server.JettyHttpServer;
-import com.web3horizen.web.framework.servlet.WebApplicationServlet;
 
-import javax.servlet.http.HttpServlet;
 import java.util.Properties;
 
 public class Main {
@@ -22,13 +19,7 @@ public class Main {
         JettyHttpServer server = new JettyHttpServer(port);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Application app = new WebApplication(AppModule.class);
-        app.initModule();
-
+        server.start(new WebApplication(AppModule.class));
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        HttpServlet servlet = new WebApplicationServlet(app);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        server.start(servlet);
     }
 }

@@ -1,4 +1,4 @@
-package com.web3horizen.web.app.modules.user.controllers;
+package com.web3horizen.web.modules.user.controllers;
 
 import com.web3horizen.web.framework.Request;
 import com.web3horizen.web.framework.Response;

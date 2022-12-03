@@ -5,7 +5,15 @@ import com.web3horizen.web.framework.mvc.Controller;
 import com.web3horizen.web.framework.mvc.Result;
 import com.web3horizen.web.framework.mvc.results.InternalError;
 import com.web3horizen.web.framework.mvc.results.NotFound;
+import com.web3horizen.web.framework.servlet.HttpRequest;
+import com.web3horizen.web.framework.servlet.HttpResponse;
+import com.web3horizen.web.framework.servlet.HttpSession;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebApplication implements Application {
+public class WebApplication extends HttpServlet implements Application {
     private final Class<?> mainModuleClass;
     private final List<Route> routes = new ArrayList<>();
 
@@ -128,5 +136,21 @@ public class WebApplication implements Application {
 
             addRoute(new Route(requestMethod, path, controllerClass, method.getName()));
         }
+    }
+
+    protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {
+        // create session
+        HttpSession session = HttpSession.getSession(servletRequest);
+
+        // create request
+        HttpRequest req = new HttpRequest(servletRequest);
+
+        // create response
+        HttpResponse res = new HttpResponse(servletResponse);
+
+        initModule();
+
+        Result result = handleRequest(session, req, res);
+        result.apply(req, res);
     }
 }
