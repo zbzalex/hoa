@@ -1,4 +1,4 @@
-Java tiny web
+Hoa
 =============
 
-Using servlet + jetty
+Small java web framework
