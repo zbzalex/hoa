@@ -1,14 +1,12 @@
-package com.web3horizen.web.router;
-
-import com.web3horizen.web.Controller;
+package com.web3horizen.web.framework;
 
 public class Route {
     protected String method;
     protected String path;
-    protected Class<? extends Controller> controller;
+    protected Class<?> controller;
     protected String action;
 
-    public Route(String method, String path, Class<? extends Controller> controller, String action) {
+    public Route(String method, String path, Class<?> controller, String action) {
         this.method = method;
         this.path = path;
         this.controller = controller;
@@ -23,7 +21,7 @@ public class Route {
         return path;
     }
 
-    public Class<? extends Controller> getController() {
+    public Class<?> getController() {
         return controller;
     }
 

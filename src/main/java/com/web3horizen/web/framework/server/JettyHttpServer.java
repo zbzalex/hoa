@@ -1,11 +1,13 @@
-package com.web3horizen.web.server;
+package com.web3horizen.web.framework.server;
 
-import com.web3horizen.web.Application;
-import com.web3horizen.web.HttpServer;
+import com.web3horizen.web.framework.Application;
+import com.web3horizen.web.framework.HttpServer;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.SessionHandler;
+
+import javax.servlet.http.HttpServlet;
 
 public class JettyHttpServer implements HttpServer {
     private final int port;
@@ -14,7 +16,7 @@ public class JettyHttpServer implements HttpServer {
         this.port = port;
     }
 
-    public void start(Application app) {
+    public void start(HttpServlet servlet) {
         try {
             Server server = new Server(port);
 
@@ -23,7 +25,7 @@ public class JettyHttpServer implements HttpServer {
             server.setHandler(sessionHandler);
 
             ServletHandler servletHandler = new ServletHandler();
-            servletHandler.addServletWithMapping(new ServletHolder(app.getServlet()), "/*");
+            servletHandler.addServletWithMapping(new ServletHolder(servlet), "/*");
             sessionHandler.addHandler(servletHandler);
 
             server.start();

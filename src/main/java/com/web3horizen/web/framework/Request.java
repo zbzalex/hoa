@@ -1,4 +1,4 @@
-package com.web3horizen.web;
+package com.web3horizen.web.framework;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-package com.web3horizen.web.servlet;
+package com.web3horizen.web.framework.servlet;
 
-import com.web3horizen.web.Request;
+import com.web3horizen.web.framework.Request;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

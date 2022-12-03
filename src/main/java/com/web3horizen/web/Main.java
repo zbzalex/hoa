@@ -1,9 +1,12 @@
 package com.web3horizen.web;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.web3horizen.web.server.JettyHttpServer;
+import com.web3horizen.web.app.modules.app.AppModule;
+import com.web3horizen.web.framework.Application;
+import com.web3horizen.web.framework.WebApplication;
+import com.web3horizen.web.framework.server.JettyHttpServer;
+import com.web3horizen.web.framework.servlet.WebApplicationServlet;
 
+import javax.servlet.http.HttpServlet;
 import java.util.Properties;
 
 public class Main {
@@ -13,29 +16,19 @@ public class Main {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Properties properties = new Properties();
         properties.load(Main.class.getClassLoader().getResourceAsStream("config.properties"));
-
-        int port = Integer.valueOf((String) properties.get("server.port"));
-
+        int port = Integer.parseInt((String) properties.get("server.port"));
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         JettyHttpServer server = new JettyHttpServer(port);
 
-        Application app = new WebApplication();
-        app.any("/", HomeController.class, "index");
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        Application app = new WebApplication(AppModule.class);
+        app.initModule();
 
-        server.start(app);
-    }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        HttpServlet servlet = new WebApplicationServlet(app);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static class HomeController extends Controller {
-        public HomeController(Session session, Request request, Response response) {
-            super(session, request, response);
-        }
-
-        public void index() {
-            JsonObject obj = new JsonObject();
-            obj.add("github", new JsonPrimitive("https://github.com/zbzalex"));
-            sendJson(obj);
-        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        server.start(servlet);
     }
 }

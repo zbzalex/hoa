@@ -1,6 +1,6 @@
-package com.web3horizen.web.servlet;
+package com.web3horizen.web.framework.servlet;
 
-import com.web3horizen.web.Response;
+import com.web3horizen.web.framework.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,5 +23,13 @@ public class HttpResponse extends Response {
             httpServletResponse.getWriter().write(string);
         } catch (IOException e) {
         }
+    }
+
+    public void setStatus(int code) {
+        httpServletResponse.setStatus(code);
+    }
+
+    public void addHeader(String header, String value) {
+        httpServletResponse.addHeader(header, value);
     }
 }

@@ -1,6 +1,6 @@
-package com.web3horizen.web.servlet;
+package com.web3horizen.web.framework.servlet;
 
-import com.web3horizen.web.Session;
+import com.web3horizen.web.framework.Session;
 
 import javax.servlet.http.HttpServletRequest;
 
