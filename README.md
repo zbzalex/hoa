@@ -2,3 +2,61 @@ Hoa
 =============
 
 Small java web framework
+
+# Example
+
+### Module
+```java
+@Module(modules = {
+        HomeModule.class,
+})
+public class AppModule {
+}
+```
+
+```java
+@Module(controllers = {
+        HomeController.class
+})
+public class HomeModule {
+}
+```
+
+
+### Controller
+```java
+@Controller("/")
+public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller {
+
+    public HomeController(Session session, Request req, Response res) {
+        super(session, req, res);
+    }
+
+    @Get("/")
+    public Result actionHello() {
+        return new Html("hello!");
+    }
+}
+```
+
+### Start server
+
+```java
+public class Main {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static void main(String[] args) throws Exception {
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        Properties properties = new Properties();
+        properties.load(Main.class.getClassLoader().getResourceAsStream("config.properties"));
+        int port = Integer.parseInt((String) properties.get("server.port"));
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JettyHttpServer server = new JettyHttpServer(port);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        server.start(new WebApplication(AppModule.class));
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+}
+```
