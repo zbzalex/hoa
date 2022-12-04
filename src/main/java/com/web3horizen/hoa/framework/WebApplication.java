@@ -148,8 +148,6 @@ public class WebApplication extends HttpServlet implements Application {
         // create response
         HttpResponse res = new HttpResponse(servletResponse);
 
-        initModule();
-
         Result result = handleRequest(session, req, res);
         result.apply(req, res);
     }
