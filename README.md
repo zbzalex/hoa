@@ -6,6 +6,9 @@ Small java web framework
 # Example
 
 ### Module
+
+create main module
+
 ```java
 @Module(modules = {
         HomeModule.class,
@@ -13,6 +16,8 @@ Small java web framework
 public class AppModule {
 }
 ```
+
+... and create some module with controllers
 
 ```java
 @Module(controllers = {
@@ -34,7 +39,7 @@ public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller
 
     @Get("/")
     public Result actionHello() {
-        return new Html("hello!");
+        return new Html("hello!"); // return "text/html" content type
     }
 }
 ```
@@ -54,8 +59,11 @@ public class Main {
 
         JettyHttpServer server = new JettyHttpServer(port);
 
+        Application app = new WebApplication(AppModule.class);
+        app.initModule();
+        
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        server.start(new WebApplication(AppModule.class));
+        server.start((HttpServlet) app);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
