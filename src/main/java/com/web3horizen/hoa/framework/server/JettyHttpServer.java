@@ -20,7 +20,6 @@ public class JettyHttpServer implements HttpServer {
             Server server = new Server(port);
 
             SessionHandler sessionHandler = new SessionHandler();
-
             server.setHandler(sessionHandler);
 
             ServletHandler servletHandler = new ServletHandler();
@@ -28,8 +27,6 @@ public class JettyHttpServer implements HttpServer {
             sessionHandler.addHandler(servletHandler);
 
             server.start();
-            System.out.println("Listening port " + port);
-
             server.join();
         } catch (Exception e) {
             e.printStackTrace();

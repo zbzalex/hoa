@@ -7,5 +7,5 @@ public interface Application {
 
     Result handleRequest(Session session, Request request, Response response);
 
-    void initModule();
+    void initModule(Class<?> moduleClass);
 }

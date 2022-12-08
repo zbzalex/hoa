@@ -1,7 +1,7 @@
 package com.web3horizen.hoa.framework;
 
-import com.web3horizen.hoa.framework.annotation.Module;
-import com.web3horizen.hoa.framework.annotation.RequestMapping;
+import com.web3horizen.hoa.framework.annotations.Module;
+import com.web3horizen.hoa.framework.annotations.RequestMapping;
 
 import java.lang.reflect.Method;
 
@@ -34,7 +34,7 @@ public class WebApplicationAnnotationProcessor {
     }
 
     private void _processController(Class<?> controllerClass) {
-        com.web3horizen.hoa.framework.annotation.Controller controllerAnnotation = controllerClass.getDeclaredAnnotation(com.web3horizen.hoa.framework.annotation.Controller.class);
+        com.web3horizen.hoa.framework.annotations.Controller controllerAnnotation = controllerClass.getDeclaredAnnotation(com.web3horizen.hoa.framework.annotations.Controller.class);
         if (controllerAnnotation == null) {
             throw new RuntimeException("Class " + controllerClass.getName() + " require @Controller() annotation!");
         }

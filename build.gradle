@@ -46,6 +46,8 @@ dependencies {
     implementation 'org.mortbay.jetty:jetty:6.1.26'
     implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.json:json:20220924'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'ch.qos.logback:logback-classic:1.1.3'
 
 }
 

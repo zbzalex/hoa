@@ -4,6 +4,8 @@ import com.web3horizen.hoa.framework.mvc.Controller;
 import com.web3horizen.hoa.framework.mvc.Result;
 import com.web3horizen.hoa.framework.mvc.results.InternalError;
 import com.web3horizen.hoa.framework.mvc.results.NotFound;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebApplication extends HttpServlet implements Application {
-    private final Class<?> mainModuleClass;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final List<Route> routes = new ArrayList<>();
     private final WebApplicationAnnotationProcessor annotationProcessor = new WebApplicationAnnotationProcessor(this);
     private boolean _initialized = false;
 
-    public WebApplication(Class<?> moduleClass) {
-        this.mainModuleClass = moduleClass;
+    public WebApplication() {
     }
 
     public void addRoute(Route route) {
@@ -54,13 +56,17 @@ public class WebApplication extends HttpServlet implements Application {
         return new NotFound();
     }
 
-    public void initModule() {
+    public void initModule(Class<?> moduleClass) {
+        logger.debug("initModule()");
+
         if (_initialized) {
             throw new RuntimeException("Module already initialized!");
         }
 
+        logger.debug("module initialization..");
+
         _initialized = true;
-        annotationProcessor.process(mainModuleClass);
+        annotationProcessor.process(moduleClass);
     }
 
     protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {

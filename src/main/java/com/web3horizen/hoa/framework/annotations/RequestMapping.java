@@ -1,4 +1,4 @@
-package com.web3horizen.hoa.framework.annotation;
+package com.web3horizen.hoa.framework.annotations;
 
 import com.web3horizen.hoa.framework.RequestMethod;
 
