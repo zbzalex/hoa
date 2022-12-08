@@ -1,6 +1,4 @@
-package com.web3horizen.hoa.framework.servlet;
-
-import com.web3horizen.hoa.framework.Session;
+package com.web3horizen.hoa.framework;
 
 import javax.servlet.http.HttpServletRequest;
 

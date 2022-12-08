@@ -1,14 +1,14 @@
 package com.web3horizen.hoa.example.modules.home.controllers;
 
+import com.web3horizen.hoa.example.dtos.SessionCreatedDto;
 import com.web3horizen.hoa.framework.Request;
 import com.web3horizen.hoa.framework.Response;
 import com.web3horizen.hoa.framework.Session;
 import com.web3horizen.hoa.framework.annotation.Controller;
-import com.web3horizen.hoa.framework.annotation.Get;
+import com.web3horizen.hoa.framework.annotation.RequestMapping;
 import com.web3horizen.hoa.framework.mvc.Result;
 import com.web3horizen.hoa.framework.mvc.results.Html;
 import com.web3horizen.hoa.framework.mvc.results.Json;
-import org.json.JSONObject;
 
 @Controller("/")
 public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller {
@@ -17,16 +17,13 @@ public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller
         super(session, req, res);
     }
 
-    @Get("/")
+    @RequestMapping("/")
     public Result actionIndex() {
-        JSONObject obj = new JSONObject();
-        obj.append("helloPage", "http://localhost:18080/hello");
-
-        return new Json(obj);
+        return new Html("hello");
     }
 
-    @Get("/hello")
-    public Result actionHello() {
-        return new Html("hello page");
+    @RequestMapping("/json")
+    public Result actionJson() throws InstantiationException, IllegalAccessException {
+        return new Json(new SessionCreatedDto("hello"));
     }
 }

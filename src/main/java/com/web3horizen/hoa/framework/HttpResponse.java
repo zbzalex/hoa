@@ -1,4 +1,4 @@
-package com.web3horizen.hoa.framework.servlet;
+package com.web3horizen.hoa.framework;
 
 import com.web3horizen.hoa.framework.Response;
 
