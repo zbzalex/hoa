@@ -1,35 +1,42 @@
 package com.web3horizen.hoa.framework;
 
+import com.web3horizen.hoa.framework.annotation.processor.ModuleAnnotationProcessor;
 import com.web3horizen.hoa.framework.mvc.Controller;
 import com.web3horizen.hoa.framework.mvc.Result;
 import com.web3horizen.hoa.framework.mvc.results.InternalError;
 import com.web3horizen.hoa.framework.mvc.results.NotFound;
+import com.web3horizen.hoa.framework.server.JettyHttpServer;
+import com.web3horizen.hoa.framework.servlet.WebApplicationServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebApplication extends HttpServlet implements Application {
+public class WebApplication implements Application {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    private HttpServer server = new JettyHttpServer(18080);
+    private Class<?> mainModuleClass;
     private final List<Route> routes = new ArrayList<>();
-    private final WebApplicationAnnotationProcessor annotationProcessor = new WebApplicationAnnotationProcessor(this);
-    private boolean _initialized = false;
+    private final ModuleAnnotationProcessor moduleAnnotationProcessor = new ModuleAnnotationProcessor(this);
 
     public WebApplication() {
     }
 
-    public void addRoute(Route route) {
-        routes.add(route);
+    public WebApplication(HttpServer server) {
+        this.server = server;
+    }
+
+
+    public void setMainModuleClass(Class<?> mainModuleClass) {
+        this.mainModuleClass = mainModuleClass;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
     }
 
     public Result handleRequest(Session session, Request request, Response response) {
@@ -56,33 +63,15 @@ public class WebApplication extends HttpServlet implements Application {
         return new NotFound();
     }
 
-    public void initModule(Class<?> moduleClass) {
-        logger.debug("initModule()");
+    public void run() {
+        moduleAnnotationProcessor.process(mainModuleClass);
 
-        if (_initialized) {
-            throw new RuntimeException("Module already initialized!");
-        }
-
-        logger.debug("module initialization..");
-
-        _initialized = true;
-        annotationProcessor.process(moduleClass);
-    }
-
-    protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {
-        HttpSession session = HttpSession.getSession(servletRequest);
-        HttpRequest req = new HttpRequest(servletRequest);
-
-        HttpResponse res = new HttpResponse(servletResponse);
-
-        Result result = handleRequest(session, req, res);
-
-        result.apply(req, res);
+        server.start(new WebApplicationServlet(this));
 
         terminate();
     }
 
-    protected void terminate() {
+    public void terminate() {
 
     }
 }

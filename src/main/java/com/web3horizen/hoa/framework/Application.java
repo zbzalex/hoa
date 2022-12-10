@@ -2,10 +2,16 @@ package com.web3horizen.hoa.framework;
 
 import com.web3horizen.hoa.framework.mvc.Result;
 
+import java.util.List;
+
 public interface Application {
-    void addRoute(Route route);
+    void setMainModuleClass(Class<?> moduleClass);
+
+    void run();
 
     Result handleRequest(Session session, Request request, Response response);
 
-    void initModule(Class<?> moduleClass);
+    void terminate();
+
+    List<Route> getRoutes();
 }

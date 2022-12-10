@@ -1,4 +1,4 @@
-package com.web3horizen.hoa.example.dtos;
+package com.web3horizen.hoa.example.dto;
 
 public class SessionCreatedDto {
     public String token;

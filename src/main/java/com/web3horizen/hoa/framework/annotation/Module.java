@@ -1,4 +1,4 @@
-package com.web3horizen.hoa.framework.annotations;
+package com.web3horizen.hoa.framework.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

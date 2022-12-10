@@ -1,11 +1,11 @@
 package com.web3horizen.hoa.example.modules.home.controllers;
 
-import com.web3horizen.hoa.example.dtos.SessionCreatedDto;
+import com.web3horizen.hoa.example.dto.SessionCreatedDto;
 import com.web3horizen.hoa.framework.Request;
 import com.web3horizen.hoa.framework.Response;
 import com.web3horizen.hoa.framework.Session;
-import com.web3horizen.hoa.framework.annotations.Controller;
-import com.web3horizen.hoa.framework.annotations.RequestMapping;
+import com.web3horizen.hoa.framework.annotation.Controller;
+import com.web3horizen.hoa.framework.annotation.RequestMapping;
 import com.web3horizen.hoa.framework.mvc.Result;
 import com.web3horizen.hoa.framework.mvc.results.Html;
 import com.web3horizen.hoa.framework.mvc.results.Json;

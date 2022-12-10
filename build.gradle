@@ -25,13 +25,16 @@ repositories {
 }
 
 application {
-    mainClass = "com.web3horizen.web.Main"
+    mainClass = "com.web3horizen.hoa.example.Main"
+	
     applicationDefaultJvmArgs = [
             '-Dapp.language=ru'
     ]
-    sourceSets {
-        main.java.srcDirs += "src/kotlin"
-    }
+	
+	sourceSets.main.java.srcDirs += [
+		'src/main/java',
+		'src/main/kotlin'
+	]
 }
 
 dependencies {
@@ -62,3 +65,5 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = '1.8'
 }
+
+defaultTasks 'compileJava', 'run'
