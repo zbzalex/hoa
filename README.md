@@ -30,14 +30,14 @@ public class HomeModule {
 
 ### Controller
 ```java
-@Controller("/")
+@Controller
 public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller {
 
     public HomeController(Session session, Request req, Response res) {
         super(session, req, res);
     }
 
-    @Get("/")
+    @RequestMapping("/")
     public Result actionHello() {
         return new Html("hello!"); // return "text/html" content type
     }
@@ -48,22 +48,11 @@ public class HomeController extends com.web3horizen.hoa.framework.mvc.Controller
 
 ```java
 public class Main {
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) throws Exception {
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Properties properties = new Properties();
-        properties.load(Main.class.getClassLoader().getResourceAsStream("config.properties"));
-        int port = Integer.parseInt((String) properties.get("server.port"));
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        JettyHttpServer server = new JettyHttpServer(port);
-
-        Application app = new WebApplication(AppModule.class);
-        app.initModule();
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        server.start((HttpServlet) app);
+        Application app = new WebApplication();
+        app.setMainModuleClass(AppModule.class);
+        app.run();
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
