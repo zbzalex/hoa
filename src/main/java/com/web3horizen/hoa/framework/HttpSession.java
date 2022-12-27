@@ -26,10 +26,6 @@ public class HttpSession extends Session {
         return session;
     }
 
-    public javax.servlet.http.HttpSession getHttpServletSession() {
-        return httpServletSession;
-    }
-
     public String getId() {
         return httpServletSession.getId();
     }

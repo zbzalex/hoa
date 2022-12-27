@@ -1,7 +1,5 @@
 package com.web3horizen.hoa.framework;
 
-import com.web3horizen.hoa.framework.Request;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -9,14 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest extends Request {
-    private final HttpServletRequest httpServletRequest;
+    protected final HttpServletRequest httpServletRequest;
+    protected Session session;
+    protected Map<String, String> attributes = new HashMap<>();
 
     public HttpRequest(final HttpServletRequest httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
-    }
-
-    public HttpServletRequest getHttpServletRequest() {
-        return httpServletRequest;
     }
 
     public Cookie[] getCookies() {
@@ -25,13 +21,15 @@ public class HttpRequest extends Request {
 
     @Override
     public String getUrl() {
-        String url = httpServletRequest.getPathInfo();
+        StringBuilder sb = new StringBuilder();
+        sb.append(httpServletRequest.getPathInfo());
         String queryString = httpServletRequest.getQueryString();
         if (queryString != null) {
-            url += "?" + queryString;
+            sb.append("?");
+            sb.append(queryString);
         }
 
-        return url;
+        return sb.toString();
     }
 
     public String getPath() {
@@ -42,10 +40,12 @@ public class HttpRequest extends Request {
         return httpServletRequest.getMethod();
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Map<String, String> getParameterMap() {
         final Map<String, String> parameterMap = new HashMap<>();
-        for (Enumeration enumeration = httpServletRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
+        for (Enumeration enumeration = httpServletRequest.getParameterNames();
+             enumeration.hasMoreElements(); ) {
             final String name = (String) enumeration.nextElement();
             parameterMap.put(name, httpServletRequest.getParameter(name));
         }
@@ -61,5 +61,23 @@ public class HttpRequest extends Request {
     @Override
     public String[] getParameters(String key) {
         return httpServletRequest.getParameterValues(key);
+    }
+
+    @Override
+    public Session getSession() {
+        return session;
+    }
+
+    @Override
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 }

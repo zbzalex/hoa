@@ -1,7 +1,6 @@
 package com.web3horizen.hoa.framework;
 
-import com.web3horizen.hoa.framework.Response;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -31,5 +30,9 @@ public class HttpResponse extends Response {
 
     public void addHeader(String header, String value) {
         httpServletResponse.addHeader(header, value);
+    }
+
+    public void addCookie(Cookie cookie) {
+        httpServletResponse.addCookie(cookie);
     }
 }

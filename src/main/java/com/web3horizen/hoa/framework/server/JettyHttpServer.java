@@ -27,6 +27,7 @@ public class JettyHttpServer implements HttpServer {
             sessionHandler.addHandler(servletHandler);
 
             server.start();
+
             server.join();
         } catch (Exception e) {
             e.printStackTrace();

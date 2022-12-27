@@ -19,12 +19,13 @@ public class WebApplicationServlet extends HttpServlet {
 
     protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         HttpSession session = HttpSession.getSession(servletRequest);
+
         HttpRequest request = new HttpRequest(servletRequest);
+        request.setSession(session);
+
         HttpResponse response = new HttpResponse(servletResponse);
 
-        Result result = context.handleRequest(session, request, response);
+        Result result = context.handleRequest(request, response);
         result.apply(request, response);
-
-        context.terminate();
     }
 }
